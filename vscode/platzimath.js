@@ -5,13 +5,37 @@ function esImpar(lista) {
     return (lista.length % 2);
 }
 
-function calcularMediana(lista) {
+function calcularModa(lista) {
+    const listaCount = {};
+
+    for (let i = 0; i < lista.length; i++) {
+        const elemento = lista[i];
+        
+        if (listaCount[elemento]) {
+            listaCount[elemento] += 1;
+        } else {
+            listaCount[elemento] = 1;
+        }
+    }
+
+    
+    const listaArray = Object.entries(listaCount);
+    const listaOrdenada = ordenarListaBidimensional(listaArray, 1);
+    const listaMaxNumber = listaOrdenada[listaOrdenada.length - 1];
+    const moda = listaMaxNumber[0];
+    // console.log(listaCount, listaArray, listaOrdenada, listaMaxNumber);
+    // console.log('La moda es ' + listaMaxNumber[0]);
+    return moda;
+}
+
+function calcularMediana(listaDesordenada) {
+    const lista = ordenarLista(listaDesordenada);
     const listaEsPar = esPar(lista);
 
     if (listaEsPar) {
         // const index1Par = (lista.length / 2) - 1;
         // const index2Par = lista.length / 2;
-        
+
         const mitad1Par = lista[(lista.length / 2) - 1];
         const mitad2Par = lista[lista.length / 2]
         const listaMitades = [mitad1Par, mitad2Par]
@@ -47,4 +71,21 @@ function calcularPromedio(lista) {
     const promedio = sumaLista / lista.length;
     console.log(promedio);
     return promedio;
+}
+
+function ordenarListaBidimensional(listaDesordenada, i) {
+    function ordernarListaSort(valorAcumulado, nuevoValor) {
+        // if (valorAcumulado > nuevoValor) {
+        //     return 1;
+        // } else if (valorAcumulado == nuevoValor) {
+        //     return 0;
+        // } else if (valorAcumulado < nuevoValor) {
+        //     return -1;
+        // }
+
+        return valorAcumulado[i] - nuevoValor[i];
+    }
+
+    const lista = listaDesordenada.sort(ordernarListaSort)
+    return lista;
 }
